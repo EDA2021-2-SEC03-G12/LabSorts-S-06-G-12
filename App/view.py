@@ -21,6 +21,10 @@
  """
 
 import config as cf
+import sys 
+... 
+default_limit = 1000 
+sys.setrecursionlimit(default_limit*10) 
 import sys
 import controller
 from DISClib.ADT import list as lt
@@ -83,6 +87,15 @@ def printBestBooks(books):
 
 def printSortResults(ord_books, sample=10):
     # TODO completar modificaciones para el laboratorio 4
+    size = lt.size(ord_books) 
+    if size > sample: 
+        print("Los primeros ", sample, " libros ordenados son:") 
+        i=1 
+        while i <= sample: 
+            book = lt.getElement(ord_books,i) 
+            print('Titulo: ' + book['title'] + '  ISBN: ' + 
+                  book['isbn'] + ' Rating: ' + book['average_rating']) 
+            i+=1 
     pass
 
 catalog = None
@@ -118,13 +131,11 @@ while True:
         book_count = controller.countBooksByTag(catalog, label)
         print('Se encontraron: ', book_count, ' Libros')
 
-    elif int(inputs[0]) == 5:
-        # TODO completar modificaciones para el laboratorio 4
-        size = input("Indique tamaño de la muestra: ")
-        result = controller.sortBooks(catalog, int(size))
-        print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
-                                          str(result))
-
+    elif int(inputs[0]) == 5: 
+        size = input("Indique tamaño de la muestra: ") 
+        result = controller.sortBooks(catalog, int(size)) 
+        print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ", 
+                                          str(result[0])) 
+        printSortResults(result[1]) 
     else:
         sys.exit(0)
-sys.exit(0)
